@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white flex items-center justify-center min-h-screen">
+    <div class="text-center">
+        <div class="bg-gray-800 rounded-lg shadow-lg p-8 m-4 max-w-sm w-full fade-in">
+            <img src="https://files.catbox.moe/ps1x5i.jpg" alt="Logo" class="rounded-full h-24 w-24 mx-auto mb-4">
+            <h2 class="text-2xl font-bold mb-2">ස්ටේටස් ලන්තය | 🙈💗💋</h2>
+            <p class="text-gray-400 mb-4">Conatct Me For Paid Promotion.</p>
+            <a href="#" id="view-website-link" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out">View Website</a>
+        </div>
+        <button id="main-button" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-full text-lg mt-8 shadow-lg pulse transition duration-300 ease-in-out" data-main-url="https://whatsapp.com/channel/0029Vb6P1g8FnSzEu8TM713M">
+            Main Web View Button
+        </button>
+    </div>
+    <script>
+        const mainButton = document.getElementById('main-button');
+        let adRedirects = 0;
+        let ads = [];
+        async function fetchAds() {
+            try {
+                const response = await fetch('ads.json');
+                ads = await response.json();
+            } catch (error) {
+                console.error('Error fetching ads:', error);
+            }
+        }
+        function getRandomAd() {
+            return ads[Math.floor(Math.random() * ads.length)];
+        }
+        mainButton.addEventListener('click', () => {
+            if (adRedirects < 2) {
+                const adUrl = getRandomAd();
+                if(adUrl) {
+                    window.open(adUrl, '_blank');
+                    adRedirects++;
+                }
+            } else {
+                window.location.href = mainButton.dataset.mainUrl;
+            }
+        });
+        fetchAds();
+    </script>
+</body>
+</html>
