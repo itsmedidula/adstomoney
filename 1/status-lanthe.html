@@ -276,8 +276,8 @@
         
         async function fetchAds() {
             try {
-                const response = await fetch('ads.json');
-                ads = await response.json();
+                const response = await fetch('ads.js');
+                ads = await response.js();
             } catch (error) {
                 console.error('Error fetching ads:', error);
                 // Fallback ads in case the fetch fails
