@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Premium Promotion Services</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @keyframes fadeIn {
@@ -19,6 +19,10 @@
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
         }
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
         .fade-in {
             animation: fadeIn 0.8s ease-out forwards;
         }
@@ -28,25 +32,88 @@
         .float {
             animation: float 3s ease-in-out infinite;
         }
-        .gradient-bg {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        .slide-in {
+            animation: slideIn 0.5s ease-out forwards;
+        }
+        .dark-gradient {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+        }
+        .card-gradient {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
         }
         .glass-effect {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(30, 41, 59, 0.7);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         .btn-glow:hover {
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.7);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+        }
+        .social-bar {
+            position: fixed;
+            right: -300px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 300px;
+            z-index: 100;
+            transition: right 0.5s ease;
+        }
+        .social-bar.active {
+            right: 0;
+        }
+        .social-toggle {
+            position: absolute;
+            left: -50px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #1e40af;
+            width: 50px;
+            height: 50px;
+            border-radius: 10px 0 0 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: -5px 0 10px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
-<body class="gradient-bg text-white min-h-screen flex items-center justify-center p-4">
+<body class="dark-gradient text-white min-h-screen flex items-center justify-center p-4">
+    <!-- Social Bar -->
+    <div class="social-bar glass-effect rounded-l-2xl shadow-2xl p-6">
+        <div class="social-toggle">
+            <i class="fas fa-comments text-xl"></i>
+        </div>
+        <h3 class="text-xl font-bold mb-6 text-center">Contact Us</h3>
+        <div class="space-y-4">
+            <a href="https://wa.me/94778167607" class="flex items-center gap-3 bg-green-600 hover:bg-green-700 p-3 rounded-lg transition-all">
+                <i class="fab fa-whatsapp text-xl"></i>
+                <span>WhatsApp</span>
+            </a>
+            <a href="#" class="flex items-center gap-3 bg-blue-600 hover:bg-blue-700 p-3 rounded-lg transition-all">
+                <i class="fab fa-facebook-messenger text-xl"></i>
+                <span>Messenger</span>
+            </a>
+            <a href="#" class="flex items-center gap-3 bg-purple-600 hover:bg-purple-700 p-3 rounded-lg transition-all">
+                <i class="fab fa-telegram text-xl"></i>
+                <span>Telegram</span>
+            </a>
+            <a href="#" class="flex items-center gap-3 bg-pink-600 hover:bg-pink-700 p-3 rounded-lg transition-all">
+                <i class="fab fa-instagram text-xl"></i>
+                <span>Instagram</span>
+            </a>
+        </div>
+        <div class="mt-6 pt-4 border-t border-gray-700">
+            <p class="text-sm text-gray-400 text-center">We respond within 24 hours</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
     <div class="max-w-4xl w-full">
         <!-- Header Section -->
         <header class="text-center mb-12 fade-in">
             <h1 class="text-4xl md:text-5xl font-bold mb-4">Premium Promotion Services</h1>
-            <p class="text-xl text-blue-100 max-w-2xl mx-auto">Boost your brand visibility with our targeted advertising solutions</p>
+            <p class="text-xl text-blue-200 max-w-2xl mx-auto">Boost your brand visibility with our targeted advertising solutions</p>
         </header>
         
         <!-- Main Content -->
@@ -56,7 +123,7 @@
                 <div class="relative">
                     <div class="absolute -top-16 left-1/2 transform -translate-x-1/2">
                         <div class="h-32 w-32 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 p-1 float">
-                            <img src="https://files.catbox.moe/ps1x5i.jpg" alt="Profile Logo" class="rounded-full h-full w-full object-cover border-4 border-gray-900">
+                            <img src="https://files.catbox.moe/ps1x5i.jpg" alt="Profile Logo" class="rounded-full h-full w-full object-cover border-4 border-gray-800">
                         </div>
                     </div>
                 </div>
@@ -70,17 +137,10 @@
                             View Channel
                         </a>
                         
-                        <div class="flex justify-center space-x-4 mt-4">
-                            <a href="#" class="text-gray-300 hover:text-white transition-colors">
-                                <i class="fab fa-facebook text-xl"></i>
-                            </a>
-                            <a href="#" class="text-gray-300 hover:text-white transition-colors">
-                                <i class="fab fa-instagram text-xl"></i>
-                            </a>
-                            <a href="#" class="text-gray-300 hover:text-white transition-colors">
-                                <i class="fab fa-telegram text-xl"></i>
-                            </a>
-                        </div>
+                        <button id="contact-toggle" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 flex items-center justify-center gap-2">
+                            <i class="fas fa-comments"></i>
+                            Contact Options
+                        </button>
                     </div>
                 </div>
             </div>
@@ -149,16 +209,70 @@
             </div>
         </div>
         
+        <!-- Testimonials -->
+        <div class="glass-effect rounded-2xl shadow-2xl p-8 mt-8 fade-in" style="animation-delay: 0.6s;">
+            <h3 class="text-2xl font-bold mb-6 text-center">What Our Clients Say</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-gray-800 p-4 rounded-lg">
+                    <div class="flex items-center mb-3">
+                        <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center mr-3">
+                            <span class="font-bold">A</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Amal Perera</h4>
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300">"My business saw a 40% increase in customers after using their promotion services. Highly recommended!"</p>
+                </div>
+                <div class="bg-gray-800 p-4 rounded-lg">
+                    <div class="flex items-center mb-3">
+                        <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center mr-3">
+                            <span class="font-bold">S</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Sithara Jayasinghe</h4>
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300">"Professional service with quick results. My Instagram following grew by 2,000 in just one week!"</p>
+                </div>
+            </div>
+        </div>
+        
         <!-- Footer -->
-        <footer class="text-center mt-12 text-gray-400 text-sm fade-in" style="animation-delay: 0.6s;">
+        <footer class="text-center mt-12 text-gray-400 text-sm fade-in" style="animation-delay: 0.8s;">
             <p>© 2023 Premium Promotion Services. All rights reserved.</p>
         </footer>
     </div>
 
     <script>
         const mainButton = document.getElementById('main-button');
+        const contactToggle = document.getElementById('contact-toggle');
+        const socialBar = document.querySelector('.social-bar');
         let adRedirects = 0;
         let ads = [];
+        
+        // Toggle social bar
+        contactToggle.addEventListener('click', () => {
+            socialBar.classList.toggle('active');
+        });
+        
+        document.querySelector('.social-toggle').addEventListener('click', () => {
+            socialBar.classList.toggle('active');
+        });
         
         async function fetchAds() {
             try {
