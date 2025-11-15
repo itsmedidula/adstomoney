@@ -3,52 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Landing Page</title>
+    <title>Premium Promotion Services</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .fade-in {
-            animation: fadeIn 0.5s ease-out forwards;
-        }
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.05); }
         }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
         .pulse {
             animation: pulse 2s infinite;
         }
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .btn-glow:hover {
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.7);
+        }
     </style>
 </head>
-<body class="bg-gray-900 text-white flex items-center justify-center min-h-screen">
-    <div class="text-center">
-        <div class="bg-gray-800 rounded-lg shadow-lg p-8 m-4 max-w-sm w-full fade-in">
-            <img src="https://files.catbox.moe/ps1x5i.jpg" alt="Logo" class="rounded-full h-24 w-24 mx-auto mb-4">
-            <h2 class="text-2xl font-bold mb-2">ස්ටේටස් ලන්තය | 🙈💗💋</h2>
-            <p class="text-gray-400 mb-4">Conatct Me For Paid Promotion.</p>
-            <a href="https://whatsapp.com/channel/0029Vb6P1g8FnSzEu8TM713M" id="view-website-link" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out">View Chanel</a>
+<body class="gradient-bg text-white min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-4xl w-full">
+        <!-- Header Section -->
+        <header class="text-center mb-12 fade-in">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Premium Promotion Services</h1>
+            <p class="text-xl text-blue-100 max-w-2xl mx-auto">Boost your brand visibility with our targeted advertising solutions</p>
+        </header>
+        
+        <!-- Main Content -->
+        <div class="flex flex-col md:flex-row gap-8 items-center justify-center">
+            <!-- Profile Card -->
+            <div class="glass-effect rounded-2xl shadow-2xl p-8 max-w-md w-full fade-in">
+                <div class="relative">
+                    <div class="absolute -top-16 left-1/2 transform -translate-x-1/2">
+                        <div class="h-32 w-32 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 p-1 float">
+                            <img src="https://files.catbox.moe/ps1x5i.jpg" alt="Profile Logo" class="rounded-full h-full w-full object-cover border-4 border-gray-900">
+                        </div>
+                    </div>
+                </div>
+                <div class="pt-20 text-center">
+                    <h2 class="text-2xl font-bold mb-2">ස්ටේටස් ලන්තය | 🙈💗💋</h2>
+                    <p class="text-gray-300 mb-6">Contact Me For Paid Promotion</p>
+                    
+                    <div class="flex flex-col gap-4">
+                        <a href="https://whatsapp.com/channel/0029Vb6P1g8FnSzEu8TM713M" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 flex items-center justify-center gap-2 btn-glow">
+                            <i class="fab fa-whatsapp"></i>
+                            View Channel
+                        </a>
+                        
+                        <div class="flex justify-center space-x-4 mt-4">
+                            <a href="#" class="text-gray-300 hover:text-white transition-colors">
+                                <i class="fab fa-facebook text-xl"></i>
+                            </a>
+                            <a href="#" class="text-gray-300 hover:text-white transition-colors">
+                                <i class="fab fa-instagram text-xl"></i>
+                            </a>
+                            <a href="#" class="text-gray-300 hover:text-white transition-colors">
+                                <i class="fab fa-telegram text-xl"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Info Section -->
+            <div class="glass-effect rounded-2xl shadow-2xl p-8 max-w-md w-full fade-in" style="animation-delay: 0.2s;">
+                <h3 class="text-2xl font-bold mb-6 text-center">Why Choose Us?</h3>
+                
+                <div class="space-y-6">
+                    <div class="flex items-start gap-4">
+                        <div class="bg-blue-500 rounded-full p-2 mt-1">
+                            <i class="fas fa-chart-line text-white"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg">Targeted Reach</h4>
+                            <p class="text-gray-300">Connect with your ideal audience through our strategic promotion methods.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start gap-4">
+                        <div class="bg-green-500 rounded-full p-2 mt-1">
+                            <i class="fas fa-bolt text-white"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg">Quick Results</h4>
+                            <p class="text-gray-300">See noticeable improvements in engagement and visibility within days.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start gap-4">
+                        <div class="bg-purple-500 rounded-full p-2 mt-1">
+                            <i class="fas fa-shield-alt text-white"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg">Reliable Service</h4>
+                            <p class="text-gray-300">Trusted by businesses and influencers for consistent, quality promotion.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-8 pt-6 border-t border-gray-700">
+                    <p class="text-center text-gray-300 mb-4">Ready to boost your presence?</p>
+                    <button id="main-button" class="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-3 px-6 rounded-full text-lg shadow-lg pulse transition-all duration-300 flex items-center justify-center gap-2 btn-glow" data-main-url="https://wa.me/94778167607?text=paid+promotion">
+                        <i class="fab fa-whatsapp"></i>
+                        Contact For Paid Ads
+                    </button>
+                </div>
+            </div>
         </div>
-        <button id="main-button" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-full text-lg mt-8 shadow-lg pulse transition duration-300 ease-in-out" data-main-url="https://wa.me/94778167607?text=paid+promotion">
-            Contact For Paid Ads
-        </button>
+        
+        <!-- Stats Section -->
+        <div class="glass-effect rounded-2xl shadow-2xl p-6 mt-8 fade-in" style="animation-delay: 0.4s;">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                <div>
+                    <div class="text-3xl font-bold text-blue-400">500+</div>
+                    <div class="text-gray-300">Successful Campaigns</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-bold text-green-400">98%</div>
+                    <div class="text-gray-300">Client Satisfaction</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-bold text-purple-400">24/7</div>
+                    <div class="text-gray-300">Support Available</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="text-center mt-12 text-gray-400 text-sm fade-in" style="animation-delay: 0.6s;">
+            <p>© 2023 Premium Promotion Services. All rights reserved.</p>
+        </footer>
     </div>
+
     <script>
         const mainButton = document.getElementById('main-button');
         let adRedirects = 0;
         let ads = [];
+        
         async function fetchAds() {
             try {
                 const response = await fetch('ads.json');
                 ads = await response.json();
             } catch (error) {
                 console.error('Error fetching ads:', error);
+                // Fallback ads in case the fetch fails
+                ads = [
+                    'https://example.com/ad1',
+                    'https://example.com/ad2',
+                    'https://example.com/ad3'
+                ];
             }
         }
+        
         function getRandomAd() {
             return ads[Math.floor(Math.random() * ads.length)];
         }
+        
         mainButton.addEventListener('click', () => {
             if (adRedirects < 2) {
                 const adUrl = getRandomAd();
@@ -60,6 +190,7 @@
                 window.location.href = mainButton.dataset.mainUrl;
             }
         });
+        
         fetchAds();
     </script>
 </body>
