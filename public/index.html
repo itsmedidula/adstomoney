@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page Generator - Admin Panel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .logout-btn {
+            background: #f44336;
+            margin-bottom: 20px;
+        }
+
+        .logout-btn:hover {
+            box-shadow: 0 5px 20px rgba(244, 67, 54, 0.4);
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 4px solid #667eea;
+        }
+
+        .result h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .url-box {
+            background: white;
+            padding: 12px;
+            border-radius: 4px;
+            border: 1px solid #e0e0e0;
+            word-break: break-all;
+            margin-bottom: 10px;
+        }
+
+        .url-box a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .url-box a:hover {
+            text-decoration: underline;
+        }
+
+        .url-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .loader {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Login Form -->
+        <div id="loginForm">
+            <h1>🔐 Admin Login</h1>
+            <p class="subtitle">Enter your password to access the landing page generator</p>
+            <div id="loginMessage"></div>
+            <form onsubmit="login(event)">
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" id="loginBtn">Login</button>
+            </form>
+        </div>
+
+        <!-- Generator Form -->
+        <div id="generatorForm" class="hidden">
+            <button class="logout-btn" onclick="logout()">Logout</button>
+            <h1>🚀 Landing Page Generator</h1>
+            <p class="subtitle">Fill in the details to generate and deploy your landing page</p>
+            
+            <div id="message"></div>
+
+            <form onsubmit="generatePage(event)">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" placeholder="e.g., Healthcare Solutions" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input type="text" id="description" placeholder="e.g., Professional healthcare services" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="chanel_url">Channel URL</label>
+                    <input type="url" id="chanel_url" placeholder="e.g., https://t.me/yourchannel" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="logo_url">Logo URL</label>
+                    <input type="url" id="logo_url" placeholder="e.g., https://example.com/logo.png" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="button_name">Button Name</label>
+                    <input type="text" id="button_name" placeholder="e.g., Join Now" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="button_url">Button URL</label>
+                    <input type="url" id="button_url" placeholder="e.g., https://example.com/signup" required>
+                </div>
+
+                <button type="submit" id="generateBtn">Generate Page</button>
+            </form>
+
+            <div id="result" class="result hidden"></div>
+        </div>
+    </div>
+
+    <script>
+        let authToken = localStorage.getItem('authToken');
+
+        // Check if already logged in
+        if (authToken) {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('generatorForm').classList.remove('hidden');
+        }
+
+        async function login(event) {
+            event.preventDefault();
+            const password = document.getElementById('password').value;
+            const btn = document.getElementById('loginBtn');
+            const messageEl = document.getElementById('loginMessage');
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loader"></span>Logging in...';
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    authToken = data.token;
+                    localStorage.setItem('authToken', authToken);
+                    document.getElementById('loginForm').classList.add('hidden');
+                    document.getElementById('generatorForm').classList.remove('hidden');
+                } else {
+                    messageEl.innerHTML = '<div class="message error">Invalid password. Please try again.</div>';
+                }
+            } catch (error) {
+                messageEl.innerHTML = '<div class="message error">Connection error. Please try again.</div>';
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Login';
+            }
+        }
+
+        async function logout() {
+            try {
+                await fetch('/api/logout', {
+                    method: 'POST',
+                    headers: { 'Authorization': authToken }
+                });
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+
+            localStorage.removeItem('authToken');
+            authToken = null;
+            document.getElementById('generatorForm').classList.add('hidden');
+            document.getElementById('loginForm').classList.remove('hidden');
+            document.getElementById('password').value = '';
+            document.getElementById('result').classList.add('hidden');
+        }
+
+        async function generatePage(event) {
+            event.preventDefault();
+            
+            const formData = {
+                title: document.getElementById('title').value,
+                description: document.getElementById('description').value,
+                chanel_url: document.getElementById('chanel_url').value,
+                logo_url: document.getElementById('logo_url').value,
+                button_name: document.getElementById('button_name').value,
+                button_url: document.getElementById('button_url').value
+            };
+
+            const btn = document.getElementById('generateBtn');
+            const messageEl = document.getElementById('message');
+            const resultEl = document.getElementById('result');
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loader"></span>Generating...';
+            messageEl.innerHTML = '';
+            resultEl.classList.add('hidden');
+
+            try {
+                const response = await fetch('/api/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': authToken
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    messageEl.innerHTML = '<div class="message success">✅ Landing page generated and deployed successfully!</div>';
+                    resultEl.innerHTML = `
+                        <h3>🎉 Your Landing Page is Live!</h3>
+                        <div class="url-label">Public URL:</div>
+                        <div class="url-box">
+                            <a href="${data.url}" target="_blank">${data.url}</a>
+                        </div>
+                        <div class="url-label">GitHub URL:</div>
+                        <div class="url-box">
+                            <a href="${data.github_url}" target="_blank">${data.github_url}</a>
+                        </div>
+                        <div class="url-label">Filename: <strong>${data.filename}</strong></div>
+                    `;
+                    resultEl.classList.remove('hidden');
+                    event.target.reset();
+                } else {
+                    if (response.status === 401) {
+                        messageEl.innerHTML = '<div class="message error">Session expired. Please login again.</div>';
+                        setTimeout(logout, 2000);
+                    } else {
+                        messageEl.innerHTML = `<div class="message error">❌ Error: ${data.error}</div>`;
+                    }
+                }
+            } catch (error) {
+                messageEl.innerHTML = '<div class="message error">❌ Connection error. Please try again.</div>';
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Generate Page';
+            }
+        }
+    </script>
+</body>
+</html>
