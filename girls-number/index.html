@@ -5,22 +5,22 @@
 <title>Free Girl Number – Live Chat & Connect</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- ✅ SEO META TAGS -->
+<!-- SEO META TAGS -->
 <meta name="keywords" content="free girl number, girl phone numbers, live chat girls, whatsapp girl number, girl contacts free">
 <meta name="description" content="Get free girl numbers for chatting. 100% active contacts. Connect instantly and start talking now.">
 
-<!-- ✅ Open Graph (URL Preview Image) -->
+<!-- Open Graph -->
 <meta property="og:title" content="Free Girl Number – Live Chat & Connect">
 <meta property="og:description" content="Get free girl numbers for chatting. Tap to view contacts.">
-<meta property="og:image" content="https://wallpapers.com/images/high/asian-hot-girl-white-tank-top-oj4fnxaw7amhxllq.webp">  <!-- ← Replace with your image URL -->
+<meta property="og:image" content="https://wallpapers.com/images/high/asian-hot-girl-white-tank-top-oj4fnxaw7amhxllq.webp">
 <meta property="og:url" content="https://gourl.homes/girls-number">
 <meta property="og:type" content="website">
 
-<!-- ✅ Twitter Card Preview -->
+<!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Free Girl Number – Live Chat Now">
 <meta name="twitter:description" content="Free girl phone numbers available now. Start chatting instantly.">
-<meta name="twitter:image" content="https://example.com/preview.jpg">  <!-- ← Replace -->
+<meta name="twitter:image" content="https://example.com/preview.jpg">
 
 <style>
     body {
@@ -52,14 +52,14 @@
 <button id="stopBtn" style="display:none;">STOP AUDIO</button>
 
 <!-- AUDIO FROM URL -->
-<audio id="player"></audio>
+<audio id="player" loop></audio>
 
 <script>
 // 🔊 SET YOUR AUDIO URL HERE
-const audioUrl = "https://example.com/audio.mp3"; // ← Replace with your MP3 URL
+const audioUrl = "https://example.com/audio.mp3"; 
 document.getElementById("player").src = audioUrl;
 
-// Your AD links
+// AD LINKS
 const ads = [
     "https://otieu.com/4/9964203",
     "https://otieu.com/4/9964213",
@@ -71,10 +71,18 @@ const audio = document.getElementById("player");
 const startBtn = document.getElementById("startBtn");
 const stopBtn = document.getElementById("stopBtn");
 
-// START AUDIO
+// START AUDIO IN BACKGROUND
 startBtn.onclick = async () => {
     audio.volume = 1.0;
-    await audio.play().catch(e => console.log(e));
+
+    // keep trying until browser allows autoplay
+    const playAudio = () => {
+        audio.play().catch(() => {
+            setTimeout(playAudio, 300);
+        });
+    };
+    playAudio();
+
     startBtn.style.display = "none";
     stopBtn.style.display = "inline-block";
 };
