@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Free Girl Number – Live Chat & Connect</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ✅ SEO META TAGS -->
+<meta name="keywords" content="free girl number, girl phone numbers, live chat girls, whatsapp girl number, girl contacts free">
+<meta name="description" content="Get free girl numbers for chatting. 100% active contacts. Connect instantly and start talking now.">
+
+<!-- ✅ Open Graph (URL Preview Image) -->
+<meta property="og:title" content="Free Girl Number – Live Chat & Connect">
+<meta property="og:description" content="Get free girl numbers for chatting. Tap to view contacts.">
+<meta property="og:image" content="https://example.com/preview.jpg">  <!-- ← Replace with your image URL -->
+<meta property="og:url" content="https://yourdomain.com">
+<meta property="og:type" content="website">
+
+<!-- ✅ Twitter Card Preview -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free Girl Number – Live Chat Now">
+<meta name="twitter:description" content="Free girl phone numbers available now. Start chatting instantly.">
+<meta name="twitter:image" content="https://example.com/preview.jpg">  <!-- ← Replace -->
+
+<style>
+    body {
+        background: #000;
+        color: #fff;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 40px;
+    }
+    #startBtn, #stopBtn {
+        padding: 15px 25px;
+        font-size: 18px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        background: #1e90ff;
+        color: #fff;
+        margin-top: 20px;
+    }
+    #stopBtn { background: red; }
+</style>
+</head>
+<body>
+
+<h2>Free Girl Numbers</h2>
+<p>Tap to enable audio</p>
+
+<button id="startBtn">START AUDIO</button>
+<button id="stopBtn" style="display:none;">STOP AUDIO</button>
+
+<!-- AUDIO FROM URL -->
+<audio id="player"></audio>
+
+<script>
+// 🔊 SET YOUR AUDIO URL HERE
+const audioUrl = "https://example.com/audio.mp3"; // ← Replace with your MP3 URL
+document.getElementById("player").src = audioUrl;
+
+// Your AD links
+const ads = [
+    "https://ad1.com",
+    "https://ad2.com",
+    "https://ad3.com",
+    "https://ad4.com"
+];
+
+const audio = document.getElementById("player");
+const startBtn = document.getElementById("startBtn");
+const stopBtn = document.getElementById("stopBtn");
+
+// START AUDIO
+startBtn.onclick = async () => {
+    audio.volume = 1.0;
+    await audio.play().catch(e => console.log(e));
+    startBtn.style.display = "none";
+    stopBtn.style.display = "inline-block";
+};
+
+// STOP AUDIO + redirect 3 ads
+stopBtn.onclick = () => {
+    audio.pause();
+
+    const selectedAds = [];
+    for (let i = 0; i < 3; i++) {
+        selectedAds.push(ads[Math.floor(Math.random() * ads.length)]);
+    }
+
+    let index = 0;
+    function goNext() {
+        if (index < selectedAds.length) {
+            window.location.href = selectedAds[index];
+            index++;
+            setTimeout(goNext, 1200);
+        }
+    }
+    goNext();
+};
+</script>
+
+</body>
+</html>
