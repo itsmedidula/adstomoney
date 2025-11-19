@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Article Card Generator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        padding: 20px;
+    }
+    .container {
+        max-width: 700px;
+        margin: auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, textarea, button, select {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 15px;
+    }
+    button {
+        background: #007bff;
+        color: white;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    button:hover {
+        background: #0056b3;
+    }
+    #outputBox {
+        background: #272727;
+        color: #00ff90;
+        padding: 15px;
+        margin-top: 20px;
+        white-space: pre-line;
+        border-radius: 8px;
+    }
+</style>
+
+</head>
+<body>
+
+<div class="container">
+    <h2>📰 Article Card HTML Generator</h2>
+
+    <label>Title</label>
+    <input type="text" id="title" placeholder="Enter Title">
+
+    <label>Description</label>
+    <textarea id="description" placeholder="Enter Description"></textarea>
+
+    <label>Article URL</label>
+    <input type="text" id="url" placeholder="https://example.com">
+
+    <label>Image URL</label>
+    <input type="text" id="image" placeholder="https://example.com/image.jpg">
+
+    <label>Category</label>
+    <select id="category">
+        <option value="sports">Sports</option>
+        <option value="news">News</option>
+        <option value="tech">Tech</option>
+        <option value="entertainment">Entertainment</option>
+    </select>
+
+    <label>Language</label>
+    <select id="language">
+        <option value="lang-si">Sinhala</option>
+        <option value="lang-en">English</option>
+        <option value="lang-ta">Tamil</option>
+    </select>
+
+    <h3>Random Views & Comments</h3>
+    <button onclick="generateRandom()">Generate Random Numbers</button>
+
+    <input type="text" id="views" placeholder="19.2K">
+    <input type="text" id="comments" placeholder="191">
+
+    <button onclick="generateHTML()">Generate Article HTML</button>
+
+    <h3>Generated Code:</h3>
+    <div id="outputBox"></div>
+</div>
+
+<script>
+function generateRandom() {
+    const views = (Math.random() * (120 - 5) + 5).toFixed(1) + "K";
+    const comments = Math.floor(Math.random() * (500 - 20) + 20);
+
+    document.getElementById('views').value = views;
+    document.getElementById('comments').value = comments;
+}
+
+function generateHTML() {
+    const title = document.getElementById("title").value;
+    const desc = document.getElementById("description").value;
+    const url = document.getElementById("url").value;
+    const image = document.getElementById("image").value;
+    const category = document.getElementById("category").value;
+    const language = document.getElementById("language").value;
+    const views = document.getElementById("views").value;
+    const comments = document.getElementById("comments").value;
+
+    const htmlCode = `
+<article class="featured-card filter-card" data-category="${category}" data-language="${language}">
+    <a class="card-link" href="${url}" target="_blank" rel="noopener">
+        <img src="${image}" alt="Article Image" loading="lazy" decoding="async" sizes="(max-width: 768px) 100vw, 33vw">
+        <div class="featured-content">
+            <span class="featured-tag">${category.toUpperCase()}</span>
+            <h3 class="featured-title">${title}</h3>
+            <p class="featured-summary">${desc}</p>
+            <div class="featured-meta">
+                <span><i class="fas fa-eye"></i> ${views}</span>
+                <span><i class="far fa-comment"></i> ${comments}</span>
+            </div>
+        </div>
+    </a>
+</article>`;
+
+    document.getElementById("outputBox").innerText = htmlCode;
+}
+</script>
+
+</body>
+</html>
