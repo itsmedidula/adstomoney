@@ -1,590 +1,91 @@
-import React, { useState } from 'react';
-import { Download, Copy, Eye, FileCode, CheckCircle, Settings } from 'lucide-react';
-
-export default function LandingPageAdmin() {
-  const [config, setConfig] = useState({
-    fileName: "Project Nexus v2.0",
-    fileDescription: "The ultimate optimization tool for high-performance gaming. Experience faster framerates and lower latency.",
-    ownerName: "NexusMods",
-    fileSize: "1.4 GB",
-    version: "v2.0.5",
-    status: "Safe & Scanned",
-    finalDownloadUrl: "https://mediafire.com/your-real-file-link",
-    adsJsonFile: "ads.json"
-  });
-
-  const [copied, setCopied] = useState(false);
-  const [showPreview, setShowPreview] = useState(false);
-
-  const handleChange = (field, value) => {
-    setConfig(prev => ({ ...prev, [field]: value }));
-  };
-
-  const generateHTML = () => {
-    return `<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${config.fileName} - Premium Download</title>
+    <title>Landing Page Generator</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
-
-<style>
-    :root {
-        --primary-glow: #06b6d4;
-        --secondary-glow: #8b5cf6;
-    }
-    
-    body {
-        font-family: 'Outfit', sans-serif;
-        background-color: #0f172a;
-        overflow-x: hidden;
-    }
-
-    ::-webkit-scrollbar {
-        width: 8px;
-    }
-    ::-webkit-scrollbar-track {
-        background: #0f172a;
-    }
-    ::-webkit-scrollbar-thumb {
-        background: #334155;
-        border-radius: 4px;
-    }
-
-    .glass {
-        background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    }
-
-    .glass-panel {
-        background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .glow-text {
-        text-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
-    }
-    
-    .glow-btn {
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .glow-btn:hover {
-        box-shadow: 0 0 30px var(--primary-glow);
-        transform: translateY(-2px);
-    }
-
-    .glow-btn::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-        transition: 0.5s;
-    }
-    
-    .glow-btn:hover::after {
-        left: 100%;
-    }
-
-    .blob {
-        position: absolute;
-        border-radius: 50%;
-        filter: blur(80px);
-        opacity: 0.4;
-        z-index: -1;
-        animation: float 10s infinite ease-in-out;
-    }
-    
-    .blob-1 { top: -10%; left: -10%; width: 500px; height: 500px; background: var(--primary-glow); animation-delay: 0s; }
-    .blob-2 { bottom: -10%; right: -10%; width: 600px; height: 600px; background: var(--secondary-glow); animation-delay: 2s; }
-
-    @keyframes float {
-        0% { transform: translate(0, 0); }
-        50% { transform: translate(30px, 50px); }
-        100% { transform: translate(0, 0); }
-    }
-
-    .spinner {
-        width: 24px;
-        height: 24px;
-        border: 3px solid rgba(255,255,255,0.3);
-        border-radius: 50%;
-        border-top-color: #fff;
-        animation: spin 1s ease-in-out infinite;
-        display: none;
-    }
-
-    @keyframes spin {
-        to { transform: rotate(360deg); }
-    }
-    
-    .cursor-wait {
-        cursor: wait;
-    }
-</style>
 </head>
-<body class="text-slate-300 selection:bg-cyan-500 selection:text-white relative">
-<div class="blob blob-1"></div>
-<div class="blob blob-2"></div>
 
-<header class="fixed w-full z-50 transition-all duration-300" id="navbar">
-    <div class="glass border-b-0 rounded-b-2xl mx-4 mt-4 max-w-7xl xl:mx-auto">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white shadow-lg shadow-cyan-500/30">
-                    <i class="ph-bold ph-download-simple text-xl"></i>
-                </div>
-                <span class="text-xl font-bold text-white tracking-wide">${config.ownerName}</span>
-            </div>
-            <a href="#download-area" class="hidden md:block px-6 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white text-sm font-medium transition-all border border-white/10">
-                Get Started
-            </a>
-        </div>
-    </div>
-</header>
+<body class="bg-slate-900 text-white min-h-screen py-10">
 
-<section class="pt-40 pb-20 px-6 relative">
-    <div class="container mx-auto max-w-5xl text-center">
-        <span data-aos="fade-down" class="inline-block py-1 px-3 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold tracking-wider mb-6 uppercase">
-            Premium Content
-        </span>
-        
-        <h1 data-aos="fade-up" data-aos-delay="100" class="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight glow-text">
-            Download <br>
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">${config.fileName}</span>
-        </h1>
-        
-        <p data-aos="fade-up" data-aos-delay="200" class="text-lg text-slate-400 max-w-2xl mx-auto mb-10 font-light">
-            ${config.fileDescription}
-        </p>
-    </div>
-</section>
+    <div class="max-w-3xl mx-auto bg-slate-800 p-8 rounded-2xl shadow-xl">
+        <h1 class="text-3xl font-bold mb-6 text-center">Landing Page Generator</h1>
 
-<section class="py-10 px-6">
-    <div class="container mx-auto max-w-5xl">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6" data-aos="fade-up" data-aos-delay="300">
-            <div class="glass-panel p-6 rounded-2xl flex items-center gap-4 hover:bg-white/10 transition-colors">
-                <div class="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400">
-                    <i class="ph-duotone ph-hard-drives text-2xl"></i>
-                </div>
-                <div>
-                    <p class="text-xs text-slate-500 uppercase font-bold tracking-wider">File Size</p>
-                    <p class="text-xl text-white font-semibold">${config.fileSize}</p>
-                </div>
-            </div>
-            
-            <div class="glass-panel p-6 rounded-2xl flex items-center gap-4 hover:bg-white/10 transition-colors">
-                <div class="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400">
-                    <i class="ph-duotone ph-git-branch text-2xl"></i>
-                </div>
-                <div>
-                    <p class="text-xs text-slate-500 uppercase font-bold tracking-wider">Version</p>
-                    <p class="text-xl text-white font-semibold">${config.version}</p>
-                </div>
-            </div>
-
-            <div class="glass-panel p-6 rounded-2xl flex items-center gap-4 hover:bg-white/10 transition-colors">
-                <div class="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center text-green-400">
-                    <i class="ph-duotone ph-shield-check text-2xl"></i>
-                </div>
-                <div>
-                    <p class="text-xs text-slate-500 uppercase font-bold tracking-wider">Status</p>
-                    <p class="text-xl text-white font-semibold">${config.status}</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="py-20 px-6">
-    <div class="container mx-auto max-w-4xl">
-        <h2 class="text-3xl font-bold text-white mb-10 text-center" data-aos="fade-up">Why download this file?</h2>
+        <!-- FORM -->
         <div class="space-y-4">
-            <div class="glass p-5 rounded-xl flex items-start gap-4" data-aos="fade-right">
-                <i class="ph-fill ph-check-circle text-cyan-400 text-2xl mt-1"></i>
-                <div>
-                    <h3 class="text-white font-semibold text-lg">High Performance Optimization</h3>
-                    <p class="text-slate-400 text-sm mt-1">Optimized for best performance on all devices with minimal resource usage.</p>
-                </div>
-            </div>
-            <div class="glass p-5 rounded-xl flex items-start gap-4" data-aos="fade-right" data-aos-delay="100">
-                <i class="ph-fill ph-check-circle text-cyan-400 text-2xl mt-1"></i>
-                <div>
-                    <h3 class="text-white font-semibold text-lg">Verified Integrity</h3>
-                    <p class="text-slate-400 text-sm mt-1">File hash checked against original source to ensure no corruption.</p>
-                </div>
-            </div>
-            <div class="glass p-5 rounded-xl flex items-start gap-4" data-aos="fade-right" data-aos-delay="200">
-                <i class="ph-fill ph-check-circle text-cyan-400 text-2xl mt-1"></i>
-                <div>
-                    <h3 class="text-white font-semibold text-lg">Instant Access</h3>
-                    <p class="text-slate-400 text-sm mt-1">Direct server connection ensures the fastest possible download speed.</p>
-                </div>
-            </div>
+
+            <input id="fileName" type="text" class="w-full p-3 rounded bg-slate-700" placeholder="File Name">
+
+            <textarea id="fileDescription" class="w-full p-3 rounded bg-slate-700" rows="3" placeholder="File Description"></textarea>
+
+            <input id="ownerName" type="text" class="w-full p-3 rounded bg-slate-700" placeholder="Owner / Brand Name">
+
+            <input id="fileSize" type="text" class="w-full p-3 rounded bg-slate-700" placeholder="File Size (ex: 1.2 GB)">
+
+            <input id="version" type="text" class="w-full p-3 rounded bg-slate-700" placeholder="Version (ex: v2.0)">
+
+            <input id="status" type="text" class="w-full p-3 rounded bg-slate-700" placeholder="Status (ex: Safe & Scanned)">
+
+            <input id="downloadUrl" type="text" class="w-full p-3 rounded bg-slate-700" placeholder="Final Download URL">
+
+            <input id="adsJson" type="text" class="w-full p-3 rounded bg-slate-700" placeholder="ads.json filename">
         </div>
-    </div>
-</section>
 
-<section id="download-area" class="py-20 px-6 bg-black/20">
-    <div class="container mx-auto max-w-2xl text-center">
-        <div class="glass-panel rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden" data-aos="zoom-in">
-            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-cyan-500"></div>
+        <!-- BUTTON -->
+        <button onclick="generateCode()" class="w-full mt-6 bg-cyan-500 p-3 rounded-lg font-bold hover:bg-cyan-600">
+            Generate HTML
+        </button>
 
-            <h2 class="text-3xl font-bold text-white mb-2">Ready to Download?</h2>
-            <p class="text-slate-400 mb-8 text-sm">Complete the verification steps below to unlock your file.</p>
+        <!-- OUTPUT -->
+        <h2 class="text-xl font-semibold mt-10 mb-3">Generated Code:</h2>
 
-            <div class="w-full bg-slate-800 h-3 rounded-full mb-8 relative overflow-hidden">
-                <div id="progress-bar" class="absolute top-0 left-0 h-full bg-gradient-to-r from-cyan-400 to-blue-600 rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
-            </div>
+        <textarea id="output" class="w-full h-80 bg-slate-900 p-4 rounded-lg text-sm"></textarea>
 
-            <div id="status-text" class="text-cyan-400 font-mono text-sm mb-6 h-6">
-                Waiting to start...
-            </div>
-
-            <button id="download-btn" class="glow-btn w-full py-5 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-700 text-white font-bold text-lg tracking-wide flex items-center justify-center gap-3 group">
-                <div class="spinner" id="btn-spinner"></div>
-                <span id="btn-text">Download Now</span>
-                <i id="btn-icon" class="ph-bold ph-download-simple group-hover:animate-bounce"></i>
+        <!-- ACTION BUTTONS -->
+        <div class="flex gap-4 mt-4">
+            <button onclick="copyCode()" class="flex-1 bg-blue-500 p-3 rounded-lg font-bold hover:bg-blue-600">
+                Copy
             </button>
-            
-            <p class="text-xs text-slate-600 mt-6">
-                By downloading, you agree to our <a href="#" class="underline hover:text-slate-400">Terms of Service</a>.
-            </p>
+            <button onclick="downloadFile()" class="flex-1 bg-green-500 p-3 rounded-lg font-bold hover:bg-green-600">
+                Download
+            </button>
         </div>
-    </div>
-</section>
 
-<footer class="py-8 border-t border-white/5 bg-[#0a0f1c]">
-    <div class="container mx-auto px-6 text-center">
-        <p class="text-slate-500 text-sm">&copy; ${new Date().getFullYear()} ${config.ownerName}. All Rights Reserved.</p>
-        <div class="flex justify-center gap-4 mt-4">
-            <a href="#" class="text-slate-600 hover:text-white transition-colors"><i class="ph-fill ph-twitter-logo text-xl"></i></a>
-            <a href="#" class="text-slate-600 hover:text-white transition-colors"><i class="ph-fill ph-discord-logo text-xl"></i></a>
-            <a href="#" class="text-slate-600 hover:text-white transition-colors"><i class="ph-fill ph-globe text-xl"></i></a>
-        </div>
     </div>
-</footer>
-
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
 <script>
-    const siteConfig = {
-        fileName: "${config.fileName}",
-        fileDescription: "${config.fileDescription}",
-        ownerName: "${config.ownerName}",
-        fileSize: "${config.fileSize}",
-        version: "${config.version}",
-        status: "${config.status}",
-        finalDownloadUrl: "${config.finalDownloadUrl}",
-        adsJsonFile: "${config.adsJsonFile}"
-    };
+function generateCode() {
+    const htmlTemplate = `YOUR LONG HTML FILE HERE`; 
 
-    AOS.init({
-        duration: 800,
-        once: true,
-        offset: 50
-    });
+    let finalCode = htmlTemplate
+        .replace("Project Nexus v2.0", document.getElementById("fileName").value)
+        .replace("The ultimate optimization tool for high-performance gaming. Experience faster framerates and lower latency.", document.getElementById("fileDescription").value)
+        .replace("NexusMods", document.getElementById("ownerName").value)
+        .replace("1.4 GB", document.getElementById("fileSize").value)
+        .replace("v2.0.5", document.getElementById("version").value)
+        .replace("Safe & Scanned", document.getElementById("status").value)
+        .replace("https://mediafire.com/your-real-file-link", document.getElementById("downloadUrl").value)
+        .replace("ads.json", document.getElementById("adsJson").value);
 
-    let adLinks = [];
-    let currentStep = 0;
-    let totalSteps = 0;
-    let isLoading = false;
-
-    const btn = document.getElementById('download-btn');
-    const btnText = document.getElementById('btn-text');
-    const btnIcon = document.getElementById('btn-icon');
-    const btnSpinner = document.getElementById('btn-spinner');
-    const progressBar = document.getElementById('progress-bar');
-    const statusText = document.getElementById('status-text');
-
-    async function loadAds() {
-        try {
-            const response = await fetch(siteConfig.adsJsonFile);
-            adLinks = await response.json();
-            totalSteps = adLinks.length;
-        } catch (error) {
-            console.error("Failed to load ads, default to 0 steps", error);
-            totalSteps = 0;
-        }
-    }
-    loadAds();
-
-    function updateUI(percent, status, buttonLabel, showSpinner = false) {
-        progressBar.style.width = \`\${percent}%\`;
-        statusText.innerText = status;
-        btnText.innerText = buttonLabel;
-        
-        if (showSpinner) {
-            btnSpinner.style.display = "block";
-            btnIcon.style.display = "none";
-            btn.classList.add("opacity-75", "cursor-wait");
-        } else {
-            btnSpinner.style.display = "none";
-            btnIcon.style.display = "block";
-            btn.classList.remove("opacity-75", "cursor-wait");
-        }
-    }
-
-    btn.addEventListener('click', () => {
-        if (isLoading) return;
-
-        if (currentStep >= totalSteps) {
-            startFinalDownload();
-            return;
-        }
-
-        handleAdStep(currentStep);
-    });
-
-    function handleAdStep(stepIndex) {
-        isLoading = true;
-        const currentAdUrl = adLinks[stepIndex];
-        
-        updateUI((currentStep / totalSteps) * 100, "Opening secure link...", "Please Wait...", true);
-
-        setTimeout(() => {
-            window.open(currentAdUrl, '_blank');
-            
-            statusText.innerText = \`Waiting for verification (Step \${currentStep + 1}/\${totalSteps})...\`;
-            
-            setTimeout(() => {
-                finishStep();
-            }, 3000);
-
-        }, 800);
-    }
-
-    function finishStep() {
-        currentStep++;
-        isLoading = false;
-        
-        const percent = (currentStep / totalSteps) * 100;
-        
-        if (currentStep < totalSteps) {
-            updateUI(percent, \`Verification \${currentStep}/\${totalSteps} Complete\`, \`Continue (\${currentStep}/\${totalSteps})\`);
-            btnIcon.className = "ph-bold ph-arrow-right";
-        } else {
-            updateUI(100, "Verification Complete!", "Get Link");
-            btnIcon.className = "ph-bold ph-download-simple";
-            
-            progressBar.classList.remove("from-cyan-400", "to-blue-600");
-            progressBar.classList.add("bg-green-500");
-            statusText.classList.add("text-green-400");
-        }
-    }
-
-    function startFinalDownload() {
-        isLoading = true;
-        updateUI(100, "Starting download...", "Downloading...", true);
-        
-        setTimeout(() => {
-            window.location.href = siteConfig.finalDownloadUrl;
-            
-            setTimeout(() => {
-                isLoading = false;
-                updateUI(100, "Download Started!", "Download Again", false);
-            }, 2000);
-        }, 1500);
-    }
-</script>
-</body>
-</html>`;
-  };
-
-  const handleCopy = () => {
-    const html = generateHTML();
-    navigator.clipboard.writeText(html);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  const handleDownload = () => {
-    const html = generateHTML();
-    const blob = new Blob([html], { type: 'text/html' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `landing-page-${Date.now()}.html`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4 md:p-8">
-      <div className="max-w-5xl mx-auto">
-        {/* Header */}
-        <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 mb-6 border border-white/20">
-          <div className="flex items-center gap-3 mb-2">
-            <Settings className="text-cyan-400" size={32} />
-            <h1 className="text-3xl font-bold text-white">Landing Page Generator</h1>
-          </div>
-          <p className="text-slate-300">Configure your download landing page and export it instantly</p>
-        </div>
-
-        {/* Configuration Form */}
-        <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 mb-6 border border-white/20">
-          <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-            <FileCode size={24} className="text-purple-400" />
-            Page Configuration
-          </h2>
-          
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">File Name</label>
-              <input
-                type="text"
-                value={config.fileName}
-                onChange={(e) => handleChange('fileName', e.target.value)}
-                className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                placeholder="e.g., Project Nexus v2.0"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">File Description</label>
-              <textarea
-                value={config.fileDescription}
-                onChange={(e) => handleChange('fileDescription', e.target.value)}
-                className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 h-24 resize-none"
-                placeholder="Describe what this file offers..."
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">Owner/Brand Name</label>
-              <input
-                type="text"
-                value={config.ownerName}
-                onChange={(e) => handleChange('ownerName', e.target.value)}
-                className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                placeholder="e.g., NexusMods"
-              />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">File Size</label>
-                <input
-                  type="text"
-                  value={config.fileSize}
-                  onChange={(e) => handleChange('fileSize', e.target.value)}
-                  className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                  placeholder="e.g., 1.4 GB"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">Version</label>
-                <input
-                  type="text"
-                  value={config.version}
-                  onChange={(e) => handleChange('version', e.target.value)}
-                  className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                  placeholder="e.g., v2.0.5"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">Status</label>
-                <input
-                  type="text"
-                  value={config.status}
-                  onChange={(e) => handleChange('status', e.target.value)}
-                  className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                  placeholder="e.g., Safe & Scanned"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">Final Download URL</label>
-              <input
-                type="text"
-                value={config.finalDownloadUrl}
-                onChange={(e) => handleChange('finalDownloadUrl', e.target.value)}
-                className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                placeholder="https://mediafire.com/your-file-link"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">Ads JSON File Path</label>
-              <input
-                type="text"
-                value={config.adsJsonFile}
-                onChange={(e) => handleChange('adsJsonFile', e.target.value)}
-                className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                placeholder="ads.json"
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <button
-            onClick={handleCopy}
-            className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white font-semibold py-4 px-6 rounded-xl flex items-center justify-center gap-2 transition-all transform hover:scale-105 shadow-lg"
-          >
-            {copied ? <CheckCircle size={20} /> : <Copy size={20} />}
-            {copied ? 'Copied!' : 'Copy HTML'}
-          </button>
-
-          <button
-            onClick={handleDownload}
-            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-4 px-6 rounded-xl flex items-center justify-center gap-2 transition-all transform hover:scale-105 shadow-lg"
-          >
-            <Download size={20} />
-            Download HTML
-          </button>
-
-          <button
-            onClick={() => setShowPreview(!showPreview)}
-            className="bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 text-white font-semibold py-4 px-6 rounded-xl flex items-center justify-center gap-2 transition-all transform hover:scale-105 shadow-lg"
-          >
-            <Eye size={20} />
-            {showPreview ? 'Hide Preview' : 'Show Preview'}
-          </button>
-        </div>
-
-        {/* Preview */}
-        {showPreview && (
-          <div className="mt-6 bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
-            <h3 className="text-xl font-bold text-white mb-4">HTML Preview</h3>
-            <div className="bg-slate-900 rounded-lg p-4 max-h-96 overflow-auto">
-              <pre className="text-sm text-green-400 font-mono whitespace-pre-wrap break-all">
-                {generateHTML()}
-              </pre>
-            </div>
-          </div>
-        )}
-
-        {/* Info Box */}
-        <div className="mt-6 bg-blue-500/10 backdrop-blur-lg rounded-2xl p-6 border border-blue-500/30">
-          <h3 className="text-lg font-bold text-blue-300 mb-2">📝 Instructions</h3>
-          <ul className="text-slate-300 space-y-2 text-sm">
-            <li>• Fill in all configuration fields above</li>
-            <li>• Create an <code className="bg-slate-800 px-2 py-1 rounded">ads.json</code> file with an array of URLs for ad steps</li>
-            <li>• Click "Copy HTML" to copy the code or "Download HTML" to save as a file</li>
-            <li>• Upload the HTML file and ads.json to your web server</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  );
+    document.getElementById("output").value = finalCode;
 }
+
+function copyCode() {
+    const output = document.getElementById("output");
+    output.select();
+    navigator.clipboard.writeText(output.value);
+    alert("Copied!");
+}
+
+function downloadFile() {
+    const blob = new Blob([document.getElementById("output").value], { type: "text/html" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "landing-page.html";
+    a.click();
+}
+</script>
+
+</body>
+</html>
