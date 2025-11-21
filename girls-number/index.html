@@ -190,102 +190,52 @@
         <p>The detection works automatically and provides platform-specific solutions for the best user experience.</p>
     </div>
 
-    <script>
-        // Target URL to open
-        const TARGET_URL = 'https://www.timesago.blog/artical/pat-cummins-gives-serious-warning-to-kusal-mendis.html';
+    <button onclick="openExternalBrowser()" 
+style="
+    background:#2563eb;
+    color:white;
+    padding:14px 18px;
+    font-size:17px;
+    border:none;
+    border-radius:10px;
+    width:100%;
+    cursor:pointer;
+    margin-top:15px;
+">
+    🔗 Open in External Browser
+</button>
 
-        // Detect Facebook or Instagram in-app browser
-        function isInAppBrowser() {
-            const ua = navigator.userAgent || navigator.vendor || window.opera;
-            
-            // Check for Facebook in-app browser (FBAN, FBAV)
-            const isFacebookApp = /FBAN|FBAV/i.test(ua);
-            
-            // Check for Instagram in-app browser
-            const isInstagramApp = /Instagram/i.test(ua);
-            
-            return isFacebookApp || isInstagramApp;
-        }
+<script>
+function openExternalBrowser() {
+    const url = "https://www.timesago.blog/artical/pat-cummins-gives-serious-warning-to-kusal-mendis.html";
+    const ua = navigator.userAgent.toLowerCase();
 
-        // Detect device platform
-        function getDevicePlatform() {
-            const ua = navigator.userAgent || navigator.vendor || window.opera;
-            
-            if (/android/i.test(ua)) {
-                return 'android';
-            }
-            
-            if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) {
-                return 'ios';
-            }
-            
-            return 'other';
-        }
+    // ANDROID (100% external browser, no Google search)
+    if (ua.includes("android")) {
+        // Correct Chrome intent (DO NOT include https:// inside intent host)
+        const clean = url.replace("https://", "");
 
-        // Open URL in external browser based on platform
-        function openInExternalBrowser() {
-            const platform = getDevicePlatform();
-            
-            if (platform === 'android') {
-                // For Android, use intent to open in Chrome
-                const intentUrl = `intent://${TARGET_URL.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.android.chrome;end`;
-                window.location.href = intentUrl;
-                
-                // Fallback: try to open normally after a delay
-                setTimeout(() => {
-                    window.open(TARGET_URL, '_blank');
-                }, 500);
-            } else if (platform === 'ios') {
-                // For iOS, try to open in Safari
-                // First attempt: use x-safari scheme
-                window.location.href = `x-web-search://?${TARGET_URL}`;
-                
-                // Fallback: open in new window after a delay
-                setTimeout(() => {
-                    window.open(TARGET_URL, '_blank');
-                }, 500);
-            } else {
-                // For other devices, open in new tab
-                window.open(TARGET_URL, '_blank');
-            }
-        }
+        window.location.href =
+            "intent://" + clean +
+            "#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=" + encodeURIComponent(url) + ";end";
+        return;
+    }
 
-        // Show popup
-        function showPopup() {
-            document.getElementById('overlay').classList.add('show');
-            document.getElementById('popup').classList.add('show');
-        }
+    // iPHONE / iPAD
+    if (ua.includes("iphone") || ua.includes("ipad")) {
+        // Open directly in Safari (no Google search)
+        window.location.href = url;
 
-        // Hide popup
-        function hidePopup() {
-            document.getElementById('overlay').classList.remove('show');
-            document.getElementById('popup').classList.remove('show');
-        }
+        // fallback: open new tab
+        setTimeout(() => {
+            window.open(url, "_blank");
+        }, 300);
+        return;
+    }
 
-        // Initialize
-        function init() {
-            // Check if user is in Facebook or Instagram in-app browser
-            if (isInAppBrowser()) {
-                showPopup();
-            }
-
-            // Event listeners
-            document.getElementById('openInBrowser').addEventListener('click', () => {
-                openInExternalBrowser();
-                hidePopup();
-            });
-
-            document.getElementById('closeBtn').addEventListener('click', hidePopup);
-            
-            document.getElementById('overlay').addEventListener('click', hidePopup);
-        }
-
-        // Run when DOM is ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', init);
-        } else {
-            init();
-        }
-    </script>
+    // Other devices
+    window.open(url, "_blank");
+}
+</script>
 </body>
 </html>
