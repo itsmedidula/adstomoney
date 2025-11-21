@@ -10,71 +10,57 @@
 <body class="bg-slate-900 text-white min-h-screen py-10">
 
     <div class="max-w-3xl mx-auto bg-slate-800 p-8 rounded-2xl shadow-xl">
-        <h1 class="text-3xl font-bold mb-6 text-center">Landing Page Generator</h1>
+        <h1 class="text-3xl font-bold mb-6 text-center">Landing Page Generator (GitHub Safe)</h1>
 
         <!-- FORM -->
         <div class="space-y-4">
-
             <input id="fileName" type="text" class="w-full p-3 rounded bg-slate-700" placeholder="File Name">
-
             <textarea id="fileDescription" class="w-full p-3 rounded bg-slate-700" rows="3" placeholder="File Description"></textarea>
-
             <input id="ownerName" type="text" class="w-full p-3 rounded bg-slate-700" placeholder="Owner / Brand Name">
-
-            <input id="fileSize" type="text" class="w-full p-3 rounded bg-slate-700" placeholder="File Size (ex: 1.2 GB)">
-
-            <input id="version" type="text" class="w-full p-3 rounded bg-slate-700" placeholder="Version (ex: v2.0)">
-
-            <input id="status" type="text" class="w-full p-3 rounded bg-slate-700" placeholder="Status (ex: Safe & Scanned)">
-
+            <input id="fileSize" type="text" class="w-full p-3 rounded bg-slate-700" placeholder="File Size">
+            <input id="version" type="text" class="w-full p-3 rounded bg-slate-700" placeholder="Version">
+            <input id="status" type="text" class="w-full p-3 rounded bg-slate-700" placeholder="Status">
             <input id="downloadUrl" type="text" class="w-full p-3 rounded bg-slate-700" placeholder="Final Download URL">
-
             <input id="adsJson" type="text" class="w-full p-3 rounded bg-slate-700" placeholder="ads.json filename">
         </div>
 
-        <!-- BUTTON -->
         <button onclick="generateCode()" class="w-full mt-6 bg-cyan-500 p-3 rounded-lg font-bold hover:bg-cyan-600">
             Generate HTML
         </button>
 
-        <!-- OUTPUT -->
         <h2 class="text-xl font-semibold mt-10 mb-3">Generated Code:</h2>
-
         <textarea id="output" class="w-full h-80 bg-slate-900 p-4 rounded-lg text-sm"></textarea>
 
-        <!-- ACTION BUTTONS -->
         <div class="flex gap-4 mt-4">
-            <button onclick="copyCode()" class="flex-1 bg-blue-500 p-3 rounded-lg font-bold hover:bg-blue-600">
-                Copy
-            </button>
-            <button onclick="downloadFile()" class="flex-1 bg-green-500 p-3 rounded-lg font-bold hover:bg-green-600">
-                Download
-            </button>
+            <button onclick="copyCode()" class="flex-1 bg-blue-500 p-3 rounded-lg font-bold hover:bg-blue-600">Copy</button>
+            <button onclick="downloadFile()" class="flex-1 bg-green-500 p-3 rounded-lg font-bold hover:bg-green-600">Download</button>
         </div>
-
     </div>
 
 <script>
+let templateHTML = "";
+
+// Load template.html from repo (GitHub safe)
+fetch("template.html")
+    .then(res => res.text())
+    .then(data => templateHTML = data);
+
 function generateCode() {
-    const htmlTemplate = `YOUR LONG HTML FILE HERE`; 
+    let finalHTML = templateHTML
+        .replace(/###fileName###/g, document.getElementById("fileName").value)
+        .replace(/###fileDescription###/g, document.getElementById("fileDescription").value)
+        .replace(/###ownerName###/g, document.getElementById("ownerName").value)
+        .replace(/###fileSize###/g, document.getElementById("fileSize").value)
+        .replace(/###version###/g, document.getElementById("version").value)
+        .replace(/###status###/g, document.getElementById("status").value)
+        .replace(/###downloadUrl###/g, document.getElementById("downloadUrl").value)
+        .replace(/###adsJson###/g, document.getElementById("adsJson").value);
 
-    let finalCode = htmlTemplate
-        .replace("Project Nexus v2.0", document.getElementById("fileName").value)
-        .replace("The ultimate optimization tool for high-performance gaming. Experience faster framerates and lower latency.", document.getElementById("fileDescription").value)
-        .replace("NexusMods", document.getElementById("ownerName").value)
-        .replace("1.4 GB", document.getElementById("fileSize").value)
-        .replace("v2.0.5", document.getElementById("version").value)
-        .replace("Safe & Scanned", document.getElementById("status").value)
-        .replace("https://mediafire.com/your-real-file-link", document.getElementById("downloadUrl").value)
-        .replace("ads.json", document.getElementById("adsJson").value);
-
-    document.getElementById("output").value = finalCode;
+    document.getElementById("output").value = finalHTML;
 }
 
 function copyCode() {
-    const output = document.getElementById("output");
-    output.select();
-    navigator.clipboard.writeText(output.value);
+    navigator.clipboard.writeText(document.getElementById("output").value);
     alert("Copied!");
 }
 
