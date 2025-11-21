@@ -1,160 +1,291 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Free Girl Number – Live Chat & Connect</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Detector</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<!-- SEO META TAGS -->
-<meta name="keywords" content="free girl number, girl phone numbers, live chat girls, whatsapp girl number, girl contacts free">
-<meta name="description" content="Get free girl numbers for chatting. 100% active contacts. Connect instantly and start talking now.">
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            padding: 20px;
+            line-height: 1.6;
+        }
 
-<!-- Open Graph -->
-<meta property="og:title" content="Free Girl Number – Live Chat & Connect">
-<meta property="og:description" content="Get free girl numbers for chatting. Tap to view contacts.">
-<meta property="og:image" content="https://wallpapers.com/images/high/asian-hot-girl-white-tank-top-oj4fnxaw7amhxllq.webp">
-<meta property="og:url" content="https://gourl.homes/girls-number">
-<meta property="og:type" content="website">
+        /* Overlay background */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 9998;
+            animation: fadeIn 0.3s ease;
+        }
 
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Free Girl Number – Live Chat Now">
-<meta name="twitter:description" content="Free girl phone numbers available now. Start chatting instantly.">
-<meta name="twitter:image" content="https://example.com/preview.jpg">
+        /* Popup container */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            max-width: 90%;
+            width: 400px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+            animation: slideUp 0.3s ease;
+        }
 
-<style>
-    body {
-        background: #000;
-        color: #fff;
-        font-family: Arial, sans-serif;
-        text-align: center;
-        padding: 40px;
-    }
-    #startBtn, #stopBtn {
-        padding: 15px 25px;
-        font-size: 18px;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        background: #1e90ff;
-        color: #fff;
-        margin-top: 20px;
-    }
-    #stopBtn { background: red; }
-</style>
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -45%);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        /* Popup header */
+        .popup-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .popup-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 24px;
+        }
+
+        .popup-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        /* Popup content */
+        .popup-message {
+            color: #4a5568;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        /* Button */
+        .popup-button {
+            width: 100%;
+            padding: 14px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .popup-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(102, 126, 234, 0.5);
+        }
+
+        .popup-button:active {
+            transform: translateY(0);
+        }
+
+        /* Close button */
+        .close-button {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: #f7fafc;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            color: #718096;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .close-button:hover {
+            background: #e2e8f0;
+        }
+
+        /* Demo content */
+        .demo-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .demo-content h1 {
+            margin-bottom: 20px;
+            color: #2d3748;
+        }
+
+        .demo-content p {
+            margin-bottom: 15px;
+            color: #4a5568;
+        }
+
+        /* Show classes */
+        .show {
+            display: block !important;
+        }
+    </style>
 </head>
 <body>
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
 
-<h2>Free Girl Numbers</h2>
-<p>Tap to enable chat room</p>
+    <!-- Popup -->
+    <div class="popup" id="popup">
+        <button class="close-button" id="closeBtn" aria-label="Close">×</button>
+        <div class="popup-header">
+            <div class="popup-icon">🌐</div>
+            <div class="popup-title">Better Experience</div>
+        </div>
+        <div class="popup-message">
+            For the best experience, open this page in your browser.
+        </div>
+        <button class="popup-button" id="openInBrowser">
+            Open in External Browser
+        </button>
+    </div>
 
-<button id="startBtn">START CHAT WITH HASHINI</button>
-<button id="stopBtn" style="display:none;">STOP AUDIO</button>
+    <!-- Demo content -->
+    <div class="demo-content">
+        <h1>Welcome to the Page</h1>
+        <p>This is your main content. If you're viewing this in Facebook or Instagram in-app browser, you'll see a popup suggesting to open it in an external browser.</p>
+        <p>The detection works automatically and provides platform-specific solutions for the best user experience.</p>
+    </div>
 
-<!-- AUDIO FROM URL -->
-<audio id="player" loop></audio>
+    <script>
+        // Target URL to open
+        const TARGET_URL = 'https://www.timesago.blog/artical/pat-cummins-gives-serious-warning-to-kusal-mendis.html';
 
-<button onclick="openExternalBrowser()" 
-style="
-    background:#2563eb;
-    color:white;
-    padding:14px 18px;
-    font-size:17px;
-    border:none;
-    border-radius:10px;
-    width:100%;
-    cursor:pointer;
-">
-    🔗 Open in Browser
-</button>
-
-<script>
-function openExternalBrowser() {
-    const url = "https://www.timesago.blog/artical/pat-cummins-gives-serious-warning-to-kusal-mendis.html";
-    const ua = navigator.userAgent.toLowerCase();
-
-    // Detect if inside Facebook or Instagram
-    const isFB = ua.includes("fban") || ua.includes("fbav") || ua.includes("instagram");
-
-    // ANDROID — BEST METHOD (Chrome Intent)
-    if (ua.includes("android")) {
-        window.location.href =
-            "intent://" + url.replace("https://", "") +
-            "#Intent;scheme=https;package=com.android.chrome;end";
-        return;
-    }
-
-    // iPHONE — BEST METHOD AVAILABLE
-    if (ua.includes("iphone") || ua.includes("ipad")) {
-        // iOS trying direct open in Safari
-        window.location = url;
-
-        // fallback: open in a new tab (Safari usually opens externally)
-        setTimeout(() => {
-            window.open(url, "_blank");
-        }, 400);
-        return;
-    }
-
-    // OTHER DEVICES
-    window.open(url, "_blank");
-}
-</script>
-
-
-<script>
-// 🔊 SET YOUR AUDIO URL HERE
-const audioUrl = "https://example.com/audio.mp3"; 
-document.getElementById("player").src = audioUrl;
-
-// AD LINKS
-const ads = [
-    "https://otieu.com/4/9964203",
-    "https://otieu.com/4/9964213",
-    "https://otieu.com/4/9966292",
-    "https://otieu.com/4/10208217"
-];
-
-const audio = document.getElementById("player");
-const startBtn = document.getElementById("startBtn");
-const stopBtn = document.getElementById("stopBtn");
-
-// START AUDIO IN BACKGROUND
-startBtn.onclick = async () => {
-    audio.volume = 1.0;
-
-    // keep trying until browser allows autoplay
-    const playAudio = () => {
-        audio.play().catch(() => {
-            setTimeout(playAudio, 300);
-        });
-    };
-    playAudio();
-
-    startBtn.style.display = "none";
-    stopBtn.style.display = "inline-block";
-};
-
-// STOP AUDIO + redirect 3 ads
-stopBtn.onclick = () => {
-    audio.pause();
-
-    const selectedAds = [];
-    for (let i = 0; i < 3; i++) {
-        selectedAds.push(ads[Math.floor(Math.random() * ads.length)]);
-    }
-
-    let index = 0;
-    function goNext() {
-        if (index < selectedAds.length) {
-            window.location.href = selectedAds[index];
-            index++;
-            setTimeout(goNext, 1200);
+        // Detect Facebook or Instagram in-app browser
+        function isInAppBrowser() {
+            const ua = navigator.userAgent || navigator.vendor || window.opera;
+            
+            // Check for Facebook in-app browser (FBAN, FBAV)
+            const isFacebookApp = /FBAN|FBAV/i.test(ua);
+            
+            // Check for Instagram in-app browser
+            const isInstagramApp = /Instagram/i.test(ua);
+            
+            return isFacebookApp || isInstagramApp;
         }
-    }
-    goNext();
-};
-</script>
 
+        // Detect device platform
+        function getDevicePlatform() {
+            const ua = navigator.userAgent || navigator.vendor || window.opera;
+            
+            if (/android/i.test(ua)) {
+                return 'android';
+            }
+            
+            if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) {
+                return 'ios';
+            }
+            
+            return 'other';
+        }
+
+        // Open URL in external browser based on platform
+        function openInExternalBrowser() {
+            const platform = getDevicePlatform();
+            
+            if (platform === 'android') {
+                // For Android, use intent to open in Chrome
+                const intentUrl = `intent://${TARGET_URL.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.android.chrome;end`;
+                window.location.href = intentUrl;
+                
+                // Fallback: try to open normally after a delay
+                setTimeout(() => {
+                    window.open(TARGET_URL, '_blank');
+                }, 500);
+            } else if (platform === 'ios') {
+                // For iOS, try to open in Safari
+                // First attempt: use x-safari scheme
+                window.location.href = `x-web-search://?${TARGET_URL}`;
+                
+                // Fallback: open in new window after a delay
+                setTimeout(() => {
+                    window.open(TARGET_URL, '_blank');
+                }, 500);
+            } else {
+                // For other devices, open in new tab
+                window.open(TARGET_URL, '_blank');
+            }
+        }
+
+        // Show popup
+        function showPopup() {
+            document.getElementById('overlay').classList.add('show');
+            document.getElementById('popup').classList.add('show');
+        }
+
+        // Hide popup
+        function hidePopup() {
+            document.getElementById('overlay').classList.remove('show');
+            document.getElementById('popup').classList.remove('show');
+        }
+
+        // Initialize
+        function init() {
+            // Check if user is in Facebook or Instagram in-app browser
+            if (isInAppBrowser()) {
+                showPopup();
+            }
+
+            // Event listeners
+            document.getElementById('openInBrowser').addEventListener('click', () => {
+                openInExternalBrowser();
+                hidePopup();
+            });
+
+            document.getElementById('closeBtn').addEventListener('click', hidePopup);
+            
+            document.getElementById('overlay').addEventListener('click', hidePopup);
+        }
+
+        // Run when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    </script>
 </body>
 </html>
