@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- The title will be updated via JS -->
+    <title id="page-title">Loading...</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        :root {
+            --primary-glow: #06b6d4;
+            --secondary-glow: #8b5cf6;
+        }
+        
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #0f172a;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+
+        /* Glassmorphism Utilities */
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .glass-panel {
+            background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Neon Glow Effects */
+        .glow-text {
+            text-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
+        }
+        
+        .glow-btn {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .glow-btn:hover {
+            box-shadow: 0 0 30px var(--primary-glow);
+            transform: translateY(-2px);
+        }
+
+        .glow-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .glow-btn:hover::after {
+            left: 100%;
+        }
+
+        /* Floating Background Shapes */
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            z-index: -1;
+            animation: float 10s infinite ease-in-out;
+        }
+        
+        .blob-1 { top: -10%; left: -10%; width: 500px; height: 500px; background: var(--primary-glow); animation-delay: 0s; }
+        .blob-2 { bottom: -10%; right: -10%; width: 600px; height: 600px; background: var(--secondary-glow); animation-delay: 2s; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            50% { transform: translate(30px, 50px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        /* Loader Animation */
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .cursor-wait {
+            cursor: wait;
+        }
+    </style>
+</head>
+<body class="text-slate-300 selection:bg-cyan-500 selection:text-white relative">
+
+    <!-- Background Shapes -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <!-- HEADER -->
+    <header class="fixed w-full z-50 transition-all duration-300" id="navbar">
+        <div class="glass border-b-0 rounded-b-2xl mx-4 mt-4 max-w-7xl xl:mx-auto">
+            <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white shadow-lg shadow-cyan-500/30">
+                        <i class="ph-bold ph-download-simple text-xl"></i>
+                    </div>
+                    <!-- Config ID: Brand Name -->
+                    <span class="text-xl font-bold text-white tracking-wide" id="nav-brand">...</span>
+                </div>
+                <a href="#download-area" class="hidden md:block px-6 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white text-sm font-medium transition-all border border-white/10">
+                    Get Started
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="pt-40 pb-20 px-6 relative">
+        <div class="container mx-auto max-w-5xl text-center">
+            <span data-aos="fade-down" class="inline-block py-1 px-3 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold tracking-wider mb-6 uppercase">
+                Premium Content
+            </span>
+            
+            <h1 data-aos="fade-up" data-aos-delay="100" class="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight glow-text">
+                Download <br>
+                <!-- Config ID: File Name -->
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500" id="hero-filename">...</span>
+            </h1>
+            
+            <!-- Config ID: Description -->
+            <p data-aos="fade-up" data-aos-delay="200" class="text-lg text-slate-400 max-w-2xl mx-auto mb-10 font-light" id="hero-desc">
+                ...
+            </p>
+        </div>
+    </section>
+
+    <!-- FILE INFO CARDS -->
+    <section class="py-10 px-6">
+        <div class="container mx-auto max-w-5xl">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6" data-aos="fade-up" data-aos-delay="300">
+                <!-- Size -->
+                <div class="glass-panel p-6 rounded-2xl flex items-center gap-4 hover:bg-white/10 transition-colors">
+                    <div class="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400">
+                        <i class="ph-duotone ph-hard-drives text-2xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 uppercase font-bold tracking-wider">File Size</p>
+                        <!-- Config ID: Size -->
+                        <p class="text-xl text-white font-semibold" id="info-size">...</p>
+                    </div>
+                </div>
+                
+                <!-- Version -->
+                <div class="glass-panel p-6 rounded-2xl flex items-center gap-4 hover:bg-white/10 transition-colors">
+                    <div class="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400">
+                        <i class="ph-duotone ph-git-branch text-2xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 uppercase font-bold tracking-wider">Version</p>
+                        <!-- Config ID: Version -->
+                        <p class="text-xl text-white font-semibold" id="info-version">...</p>
+                    </div>
+                </div>
+
+                <!-- Security -->
+                <div class="glass-panel p-6 rounded-2xl flex items-center gap-4 hover:bg-white/10 transition-colors">
+                    <div class="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center text-green-400">
+                        <i class="ph-duotone ph-shield-check text-2xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 uppercase font-bold tracking-wider">Status</p>
+                        <!-- Config ID: Update/Status -->
+                        <p class="text-xl text-white font-semibold" id="info-status">...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES / BENEFITS -->
+    <section class="py-20 px-6">
+        <div class="container mx-auto max-w-4xl">
+            <h2 class="text-3xl font-bold text-white mb-10 text-center" data-aos="fade-up">Why download this file?</h2>
+            <div class="space-y-4">
+                <!-- Feature 1 -->
+                <div class="glass p-5 rounded-xl flex items-start gap-4" data-aos="fade-right">
+                    <i class="ph-fill ph-check-circle text-cyan-400 text-2xl mt-1"></i>
+                    <div>
+                        <h3 class="text-white font-semibold text-lg">High Performance Optimization</h3>
+                        <p class="text-slate-400 text-sm mt-1">Optimized for best performance on all devices with minimal resource usage.</p>
+                    </div>
+                </div>
+                <!-- Feature 2 -->
+                <div class="glass p-5 rounded-xl flex items-start gap-4" data-aos="fade-right" data-aos-delay="100">
+                    <i class="ph-fill ph-check-circle text-cyan-400 text-2xl mt-1"></i>
+                    <div>
+                        <h3 class="text-white font-semibold text-lg">Verified Integrity</h3>
+                        <p class="text-slate-400 text-sm mt-1">File hash checked against original source to ensure no corruption.</p>
+                    </div>
+                </div>
+                <!-- Feature 3 -->
+                <div class="glass p-5 rounded-xl flex items-start gap-4" data-aos="fade-right" data-aos-delay="200">
+                    <i class="ph-fill ph-check-circle text-cyan-400 text-2xl mt-1"></i>
+                    <div>
+                        <h3 class="text-white font-semibold text-lg">Instant Access</h3>
+                        <p class="text-slate-400 text-sm mt-1">Direct server connection ensures the fastest possible download speed.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DOWNLOAD SECTION -->
+    <section id="download-area" class="py-20 px-6 bg-black/20">
+        <div class="container mx-auto max-w-2xl text-center">
+            <div class="glass-panel rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden" data-aos="zoom-in">
+                
+                <!-- Decorative bg gradients -->
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-cyan-500"></div>
+
+                <h2 class="text-3xl font-bold text-white mb-2">Ready to Download?</h2>
+                <p class="text-slate-400 mb-8 text-sm">Complete the verification steps below to unlock your file.</p>
+
+                <!-- Progress Bar -->
+                <div class="w-full bg-slate-800 h-3 rounded-full mb-8 relative overflow-hidden">
+                    <div id="progress-bar" class="absolute top-0 left-0 h-full bg-gradient-to-r from-cyan-400 to-blue-600 rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
+                </div>
+
+                <!-- Status Text -->
+                <div id="status-text" class="text-cyan-400 font-mono text-sm mb-6 h-6">
+                    Waiting to start...
+                </div>
+
+                <!-- Main Action Button -->
+                <button id="download-btn" class="glow-btn w-full py-5 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-700 text-white font-bold text-lg tracking-wide flex items-center justify-center gap-3 group">
+                    <div class="spinner" id="btn-spinner"></div>
+                    <span id="btn-text">Download Now</span>
+                    <i id="btn-icon" class="ph-bold ph-download-simple group-hover:animate-bounce"></i>
+                </button>
+                
+                <p class="text-xs text-slate-600 mt-6">
+                    By downloading, you agree to our <a href="#" class="underline hover:text-slate-400">Terms of Service</a>.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-8 border-t border-white/5 bg-[#0a0f1c]">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-slate-500 text-sm">&copy; <span id="footer-year">2023</span> <span id="footer-brand">...</span>. All Rights Reserved.</p>
+            <div class="flex justify-center gap-4 mt-4">
+                <a href="#" class="text-slate-600 hover:text-white transition-colors"><i class="ph-fill ph-twitter-logo text-xl"></i></a>
+                <a href="#" class="text-slate-600 hover:text-white transition-colors"><i class="ph-fill ph-discord-logo text-xl"></i></a>
+                <a href="#" class="text-slate-600 hover:text-white transition-colors"><i class="ph-fill ph-globe text-xl"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AOS Script -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- LOGIC SCRIPT -->
+    <script>
+        /**
+         * ==========================================
+         * ⚙️ SITE CONFIGURATION
+         * Edit this section to change page content
+         * ==========================================
+         */
+        const siteConfig = {
+            fileName: "Project Nexus v2.0",
+            fileDescription: "The ultimate optimization tool for high-performance gaming. Experience faster framerates and lower latency.",
+            ownerName: "NexusMods",
+            
+            // File Details Card
+            fileSize: "1.4 GB",
+            version: "v2.0.5",
+            status: "Safe & Scanned",
+            
+            // Download Settings
+            finalDownloadUrl: "https://mediafire.com/your-real-file-link", 
+            adsJsonFile: "ads.json"
+        };
+
+        /**
+         * ==========================================
+         * 🧠 APP LOGIC (DO NOT EDIT BELOW)
+         * ==========================================
+         */
+
+        // 1. POPULATE CONTENT FROM CONFIG
+        function initContent() {
+            document.title = `${siteConfig.fileName} - Premium Download`;
+            document.getElementById('nav-brand').textContent = siteConfig.ownerName;
+            document.getElementById('footer-brand').textContent = siteConfig.ownerName;
+            document.getElementById('footer-year').textContent = new Date().getFullYear();
+            
+            document.getElementById('hero-filename').textContent = siteConfig.fileName;
+            document.getElementById('hero-desc').textContent = siteConfig.fileDescription;
+            
+            document.getElementById('info-size').textContent = siteConfig.fileSize;
+            document.getElementById('info-version').textContent = siteConfig.version;
+            document.getElementById('info-status').textContent = siteConfig.status;
+        }
+
+        // Run Content Init
+        initContent();
+
+        // 2. ANIMATIONS
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 50
+        });
+
+        // 3. DOWNLOAD & ADS LOGIC
+        let adLinks = [];
+        let currentStep = 0;
+        let totalSteps = 0;
+        let isLoading = false;
+
+        // DOM Elements
+        const btn = document.getElementById('download-btn');
+        const btnText = document.getElementById('btn-text');
+        const btnIcon = document.getElementById('btn-icon');
+        const btnSpinner = document.getElementById('btn-spinner');
+        const progressBar = document.getElementById('progress-bar');
+        const statusText = document.getElementById('status-text');
+
+        // Load ads from JSON
+        async function loadAds() {
+            try {
+                const response = await fetch(siteConfig.adsJsonFile);
+                adLinks = await response.json();
+                totalSteps = adLinks.length;
+            } catch (error) {
+                console.error("Failed to load ads, default to 0 steps", error);
+                totalSteps = 0;
+            }
+        }
+        loadAds();
+
+        function updateUI(percent, status, buttonLabel, showSpinner = false) {
+            progressBar.style.width = `${percent}%`;
+            statusText.innerText = status;
+            btnText.innerText = buttonLabel;
+            
+            if (showSpinner) {
+                btnSpinner.style.display = "block";
+                btnIcon.style.display = "none";
+                btn.classList.add("opacity-75", "cursor-wait");
+            } else {
+                btnSpinner.style.display = "none";
+                btnIcon.style.display = "block";
+                btn.classList.remove("opacity-75", "cursor-wait");
+            }
+        }
+
+        btn.addEventListener('click', () => {
+            if (isLoading) return;
+
+            // Case: All steps done, trigger final download
+            if (currentStep >= totalSteps) {
+                startFinalDownload();
+                return;
+            }
+
+            // Case: Handle Ad Step
+            handleAdStep(currentStep);
+        });
+
+        function handleAdStep(stepIndex) {
+            isLoading = true;
+            const currentAdUrl = adLinks[stepIndex];
+            
+            updateUI((currentStep / totalSteps) * 100, "Opening secure link...", "Please Wait...", true);
+
+            setTimeout(() => {
+                // Open Montag Link
+                window.open(currentAdUrl, '_blank');
+                
+                statusText.innerText = `Waiting for verification (Step ${currentStep + 1}/${totalSteps})...`;
+                
+                // Wait 3 seconds to simulate user viewing the ad
+                setTimeout(() => {
+                    finishStep();
+                }, 3000); 
+
+            }, 800);
+        }
+
+        function finishStep() {
+            currentStep++;
+            isLoading = false;
+            
+            const percent = (currentStep / totalSteps) * 100;
+            
+            if (currentStep < totalSteps) {
+                updateUI(percent, `Verification ${currentStep}/${totalSteps} Complete`, `Continue (${currentStep}/${totalSteps})`);
+                btnIcon.className = "ph-bold ph-arrow-right";
+            } else {
+                // Ready
+                updateUI(100, "Verification Complete!", "Get Link");
+                btnIcon.className = "ph-bold ph-download-simple";
+                
+                // Make bar green
+                progressBar.classList.remove("from-cyan-400", "to-blue-600");
+                progressBar.classList.add("bg-green-500");
+                statusText.classList.add("text-green-400");
+            }
+        }
+
+        function startFinalDownload() {
+            isLoading = true;
+            updateUI(100, "Starting download...", "Downloading...", true);
+            
+            setTimeout(() => {
+                window.location.href = siteConfig.finalDownloadUrl;
+                
+                setTimeout(() => {
+                    isLoading = false;
+                    updateUI(100, "Download Started!", "Download Again", false);
+                }, 2000);
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
