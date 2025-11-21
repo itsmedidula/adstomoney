@@ -54,61 +54,51 @@
 <!-- AUDIO FROM URL -->
 <audio id="player" loop></audio>
 
+<button onclick="openExternalBrowser()" 
+style="
+    background:#2563eb;
+    color:white;
+    padding:14px 18px;
+    font-size:17px;
+    border:none;
+    border-radius:10px;
+    width:100%;
+    cursor:pointer;
+">
+    🔗 Open in Browser
+</button>
 
 <script>
-  // Detect Facebook in-app browser
-  var isFacebookApp = navigator.userAgent.includes("FBAN") || navigator.userAgent.includes("FBAV");
+function openExternalBrowser() {
+    const url = "https://www.timesago.blog/artical/pat-cummins-gives-serious-warning-to-kusal-mendis.html";
+    const ua = navigator.userAgent.toLowerCase();
 
-  if (isFacebookApp) {
-      // Show popup
-      document.addEventListener("DOMContentLoaded", function () {
-          let popup = document.createElement("div");
-          popup.innerHTML = `
-              <div style="
-                  position: fixed;
-                  top: 0;
-                  left: 0;
-                  width: 100%;
-                  height: 100%;
-                  background: rgba(0,0,0,0.6);
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                  z-index: 9999;
-              ">
-                  <div style="
-                      background: white;
-                      color: black;
-                      padding: 20px;
-                      border-radius: 10px;
-                      width: 85%;
-                      max-width: 350px;
-                      text-align: center;
-                      font-family: sans-serif;
-                      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-                  ">
-                      <h3 style="margin-bottom: 10px;">Open in Browser</h3>
-                      <p style="margin-bottom: 15px;">
-                          For best experience, please open this website in your browser.
-                      </p>
-                      <button onclick="window.open('https://www.timesago.blog/artical/pat-cummins-gives-serious-warning-to-kusal-mendis.html', '_blank');" 
-                          style="
-                              background: #2563eb;
-                              color: white;
-                              padding: 10px 15px;
-                              border: none;
-                              border-radius: 8px;
-                              cursor: pointer;
-                              width: 100%;
-                          ">
-                          Open in Chrome / Safari
-                      </button>
-                  </div>
-              </div>
-          `;
-          document.body.appendChild(popup);
-      });
-  }
+    // Detect if inside Facebook or Instagram
+    const isFB = ua.includes("fban") || ua.includes("fbav") || ua.includes("instagram");
+
+    // ANDROID — BEST METHOD (Chrome Intent)
+    if (ua.includes("android")) {
+        window.location.href =
+            "intent://" + url.replace("https://", "") +
+            "#Intent;scheme=https;package=com.android.chrome;end";
+        return;
+    }
+
+    // iPHONE — BEST METHOD AVAILABLE
+    if (ua.includes("iphone") || ua.includes("ipad")) {
+        // iOS trying direct open in Safari
+        window.location = url;
+
+        // fallback: open in a new tab (Safari usually opens externally)
+        setTimeout(() => {
+            window.open(url, "_blank");
+        }, 400);
+        return;
+    }
+
+    // OTHER DEVICES
+    window.open(url, "_blank");
+}
 </script>
 
 
