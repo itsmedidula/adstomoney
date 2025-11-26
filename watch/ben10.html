@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watch Full Video</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --white: #ffffff;
+            --white-90: rgba(255, 255, 255, 0.9);
+            --white-70: rgba(255, 255, 255, 0.7);
+            --white-50: rgba(255, 255, 255, 0.5);
+            --white-20: rgba(255, 255, 255, 0.2);
+            --white-10: rgba(255, 255, 255, 0.1);
+            --white-05: rgba(255, 255, 255, 0.05);
+            --black: #000000;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--black);
+            color: var(--white);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .glow {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.15;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .glow-1 {
+            width: 600px;
+            height: 600px;
+            background: #4f46e5;
+            top: -200px;
+            right: -200px;
+        }
+
+        .glow-2 {
+            width: 500px;
+            height: 500px;
+            background: #7c3aed;
+            bottom: -150px;
+            left: -150px;
+            animation-delay: -7s;
+        }
+
+        .glow-3 {
+            width: 400px;
+            height: 400px;
+            background: #a855f7;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -14s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(50px, -50px) scale(1.1); }
+            50% { transform: translate(-30px, 30px) scale(0.95); }
+            75% { transform: translate(-50px, -30px) scale(1.05); }
+        }
+
+        /* Loading Overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .loading-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .loader {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .loader-ring {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top-color: var(--white);
+            animation: spin 1s linear infinite;
+        }
+
+        .loader-ring:nth-child(2) {
+            width: 60px;
+            height: 60px;
+            animation-delay: 0.15s;
+            border-top-color: var(--white-70);
+        }
+
+        .loader-ring:nth-child(3) {
+            width: 40px;
+            height: 40px;
+            animation-delay: 0.3s;
+            border-top-color: var(--white-50);
+        }
+
+        .loader-text {
+            margin-top: 100px;
+            font-size: 16px;
+            color: var(--white-70);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Container */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--white-05);
+            border: 1px solid var(--white-10);
+            border-radius: 50px;
+            margin-bottom: 24px;
+            animation: fadeInDown 0.6s ease;
+        }
+
+        .badge-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .badge-text {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--white-70);
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Title */
+        .title {
+            font-size: clamp(32px, 6vw, 56px);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 40px;
+            letter-spacing: -1px;
+            animation: fadeInUp 0.6s ease 0.1s both;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Thumbnail */
+        .thumbnail-wrapper {
+            position: relative;
+            width: 100%;
+            margin-bottom: 40px;
+            animation: fadeInUp 0.6s ease 0.2s both;
+        }
+
+        .thumbnail-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 80%;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            filter: blur(60px);
+            opacity: 0.3;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+
+        .thumbnail-container {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--white-10);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .thumbnail-container:hover {
+            transform: scale(1.02);
+            border-color: var(--white-20);
+        }
+
+        .thumbnail-container:hover .play-button {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .thumbnail-container:hover .play-button-bg {
+            transform: scale(1.2);
+            opacity: 0.3;
+        }
+
+        .thumbnail {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            display: block;
+        }
+
+        .thumbnail-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 0%, transparent 50%, rgba(0, 0, 0, 0.8) 100%);
+            pointer-events: none;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90px;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            transition: transform 0.3s ease;
+        }
+
+        .play-button-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--white);
+            border-radius: 50%;
+            opacity: 0.2;
+            transition: all 0.3s ease;
+            animation: playPulse 2s infinite;
+        }
+
+        @keyframes playPulse {
+            0%, 100% { transform: scale(1); opacity: 0.2; }
+            50% { transform: scale(1.1); opacity: 0.15; }
+        }
+
+        .play-icon {
+            width: 40px;
+            height: 40px;
+            color: var(--white);
+            position: relative;
+            z-index: 1;
+            filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.3));
+            margin-left: 4px;
+        }
+
+        /* Description */
+        .description {
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--white-70);
+            max-width: 600px;
+            margin-bottom: 32px;
+            animation: fadeInUp 0.6s ease 0.3s both;
+        }
+
+        /* Features */
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 40px;
+            animation: fadeInUp 0.6s ease 0.4s both;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background: var(--white-05);
+            border: 1px solid var(--white-10);
+            border-radius: 50px;
+            font-size: 14px;
+            color: var(--white-70);
+        }
+
+        .feature-item svg {
+            width: 16px;
+            height: 16px;
+            color: #22c55e;
+        }
+
+        /* CTA Button */
+        .cta-button {
+            position: relative;
+            padding: 20px 48px;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--black);
+            background: var(--white);
+            border: none;
+            border-radius: 60px;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.6s ease 0.5s both;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.15);
+        }
+
+        .cta-button:active {
+            transform: translateY(-1px);
+        }
+
+        .button-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+            z-index: 0;
+        }
+
+        .button-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .button-icon {
+            width: 22px;
+            height: 22px;
+        }
+
+        .button-shine {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            z-index: 2;
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0%, 100% { left: -100%; }
+            50% { left: 100%; }
+        }
+
+        /* Trust Section */
+        .trust-section {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-top: 48px;
+            animation: fadeInUp 0.6s ease 0.6s both;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--white-50);
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .trust-item svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Footer */
+        .footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 32px;
+            color: var(--white-50);
+            font-size: 13px;
+            border-top: 1px solid var(--white-05);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container { padding: 40px 20px; }
+            .thumbnail-wrapper { margin-bottom: 32px; }
+            .play-button { width: 70px; height: 70px; }
+            .play-icon { width: 32px; height: 32px; }
+            .description { font-size: 16px; }
+            .cta-button { padding: 18px 40px; font-size: 16px; width: 100%; max-width: 320px; }
+            .trust-section { flex-direction: column; gap: 16px; }
+            .features { gap: 10px; }
+            .feature-item { padding: 8px 14px; font-size: 13px; }
+        }
+
+        @media (max-width: 480px) {
+            .badge { padding: 6px 12px; }
+            .badge-text { font-size: 12px; }
+            .thumbnail-container { border-radius: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="glow glow-1"></div>
+        <div class="glow glow-2"></div>
+        <div class="glow glow-3"></div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loader">
+            <div class="loader-ring"></div>
+            <div class="loader-ring"></div>
+            <div class="loader-ring"></div>
+            <span class="loader-text">Opening Video...</span>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header Badge -->
+        <div class="badge">
+            <span class="badge-dot"></span>
+            <span class="badge-text" id="subtitle">Free Exclusive Training</span>
+        </div>
+
+        <!-- Title -->
+        <h1 class="title" id="title">Loading...</h1>
+
+        <!-- Video Thumbnail -->
+        <div class="thumbnail-wrapper">
+            <div class="thumbnail-glow"></div>
+            <div class="thumbnail-container" id="thumbnailContainer">
+                <img src="" alt="Video Thumbnail" class="thumbnail" id="thumbnail">
+                <div class="play-button">
+                    <div class="play-button-bg"></div>
+                    <svg class="play-icon" viewBox="0 0 24 24" fill="none">
+                        <path d="M8 5.14v14.72a1 1 0 001.5.86l11.5-7.36a1 1 0 000-1.72L9.5 4.28a1 1 0 00-1.5.86z" fill="currentColor"/>
+                    </svg>
+                </div>
+                <div class="thumbnail-overlay"></div>
+            </div>
+        </div>
+
+        <!-- Description -->
+        <p class="description" id="description">Loading description...</p>
+
+        <!-- Features List -->
+        <div class="features" id="features"></div>
+
+        <!-- CTA Button -->
+        <button class="cta-button" id="ctaButton">
+            <span class="button-bg"></span>
+            <span class="button-content">
+                <svg class="button-icon" viewBox="0 0 24 24" fill="none">
+                    <path d="M8 5.14v14.72a1 1 0 001.5.86l11.5-7.36a1 1 0 000-1.72L9.5 4.28a1 1 0 00-1.5.86z" fill="currentColor"/>
+                </svg>
+                <span class="button-text" id="buttonText">Watch Full Video</span>
+            </span>
+            <span class="button-shine"></span>
+        </button>
+
+        <!-- Trust Indicators -->
+        <div class="trust-section">
+            <div class="trust-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+                <span>Secure</span>
+            </div>
+            <div class="trust-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v6l4 2"/>
+                </svg>
+                <span>Instant Access</span>
+            </div>
+            <div class="trust-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 6L9 17l-5-5"/>
+                </svg>
+                <span>100% Free</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 All Rights Reserved</p>
+    </footer>
+
+    <script>
+        // ============================================
+        // CONFIGURATION - EDIT THESE VALUES
+        // ============================================
+        const CONFIG = {
+            title: "Unlock the Secret to Success",
+            thumbnail: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&h=450&fit=crop",
+            description: "Discover the proven strategies that top entrepreneurs use to build million-dollar businesses. This exclusive video reveals insider secrets that will transform your mindset and skyrocket your results.",
+            buttonText: "Watch Full Video",
+            buttonUrl: "https://your-final-destination.com/video",
+            subtitle: "Free Exclusive Training",
+            features: [
+                "Learn from industry experts",
+                "Step-by-step guidance",
+                "Actionable strategies"
+            ]
+        };
+
+        // ============================================
+        // ADS CONFIGURATION - EDIT MONETAG URLS HERE
+        // ============================================
+        const ADS_CONFIG = {
+            monetagUrls: [
+                "https://your-first-monetag-url.com/redirect1",
+                "https://your-second-monetag-url.com/redirect2"
+            ],
+            delayBetweenAds: 1500
+        };
+
+        // ============================================
+        // DO NOT EDIT BELOW THIS LINE
+        // ============================================
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            initializePage();
+            setupEventListeners();
+        });
+
+        // Initialize page content from CONFIG
+        function initializePage() {
+            // Set title
+            document.getElementById('title').textContent = CONFIG.title;
+            
+            // Set subtitle/badge
+            if (CONFIG.subtitle) {
+                document.getElementById('subtitle').textContent = CONFIG.subtitle;
+            }
+            
+            // Set thumbnail
+            const thumbnail = document.getElementById('thumbnail');
+            thumbnail.src = CONFIG.thumbnail;
+            thumbnail.alt = CONFIG.title;
+            
+            // Set description
+            document.getElementById('description').textContent = CONFIG.description;
+            
+            // Set button text
+            document.getElementById('buttonText').textContent = CONFIG.buttonText;
+            
+            // Set features
+            if (CONFIG.features && CONFIG.features.length > 0) {
+                const featuresContainer = document.getElementById('features');
+                CONFIG.features.forEach(feature => {
+                    const featureItem = document.createElement('div');
+                    featureItem.className = 'feature-item';
+                    featureItem.innerHTML = `
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 6L9 17l-5-5"/>
+                        </svg>
+                        <span>${feature}</span>
+                    `;
+                    featuresContainer.appendChild(featureItem);
+                });
+            }
+            
+            // Update page title
+            document.title = CONFIG.title;
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // CTA Button click
+            const ctaButton = document.getElementById('ctaButton');
+            ctaButton.addEventListener('click', handleWatchClick);
+            
+            // Thumbnail click
+            const thumbnailContainer = document.getElementById('thumbnailContainer');
+            thumbnailContainer.addEventListener('click', handleWatchClick);
+        }
+
+        // Handle watch button click
+        async function handleWatchClick(e) {
+            e.preventDefault();
+            
+            // Show loading overlay
+            showLoading();
+            
+            // Open monetag URLs in sequence
+            await openMonetizedUrls();
+            
+            // Hide loading and redirect to final URL
+            hideLoading();
+            
+            // Redirect to final destination
+            window.location.href = CONFIG.buttonUrl;
+        }
+
+        // Open monetized URLs
+        async function openMonetizedUrls() {
+            const urls = ADS_CONFIG.monetagUrls;
+            const delay = ADS_CONFIG.delayBetweenAds || 1500;
+            
+            for (let i = 0; i < urls.length; i++) {
+                // Open URL in new tab
+                window.open(urls[i], '_blank');
+                
+                // Wait before opening next URL
+                await sleep(delay);
+            }
+            
+            // Additional delay before final redirect
+            await sleep(1000);
+        }
+
+        // Utility function for delay
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        // Show loading overlay
+        function showLoading() {
+            document.getElementById('loadingOverlay').classList.add('active');
+        }
+
+        // Hide loading overlay
+        function hideLoading() {
+            document.getElementById('loadingOverlay').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
